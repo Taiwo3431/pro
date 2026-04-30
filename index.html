@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pharos — Editorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#111;--soft:#f7f7f5;--rule:#d9d9d5;--accent:#c0392b;--muted:#888;--mono:'DM Sans',sans-serif}
+body{font-family:var(--mono);background:#fff;color:var(--ink);line-height:1}
+a{color:inherit;text-decoration:none}
+
+/* layout */
+.page{max-width:1320px;margin:0 auto;padding:0 32px}
+
+/* masthead */
+.masthead{border-bottom:3px solid var(--ink);display:flex;align-items:flex-end;justify-content:space-between;padding:18px 0 12px;gap:16px;flex-wrap:wrap}
+.m-brand{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1}
+.m-issue{text-align:right}
+.m-date{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.m-tags{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.m-tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:#fff;padding:4px 8px}
+.m-tag.red{background:var(--accent)}
+
+/* hero row */
+.hero-row{display:grid;grid-template-columns:2fr 1fr;gap:0;border-bottom:1px solid var(--rule);padding:48px 0}
+.hero-left{padding-right:48px;border-right:1px solid var(--rule)}
+.kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;font-weight:500}
+.headline{font-family:'Playfair Display',serif;font-size:clamp(52px,7vw,88px);font-weight:900;line-height:.9;letter-spacing:-.04em;margin-bottom:28px}
+.headline em{font-style:italic;color:var(--accent)}
+.deck{font-size:17px;font-weight:300;line-height:1.75;color:#444;max-width:520px;border-left:3px solid var(--accent);padding-left:18px}
+.hero-right{padding-left:40px;display:flex;flex-direction:column;gap:24px}
+.sidebar-block{border-bottom:1px solid var(--rule);padding-bottom:20px}
+.sidebar-block:last-child{border-bottom:none}
+.sb-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:500}
+.sb-val{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.sb-val.loading{font-family:var(--mono);font-size:14px;color:var(--muted);font-weight:300}
+.sb-sub{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* pull quote band */
+.pq-band{background:var(--ink);color:#fff;padding:28px 32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin:0 -32px}
+.pq-text{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;font-weight:700;line-height:1.35;flex:1;min-width:260px}
+.pq-meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#aaa;white-space:nowrap}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4caf50;margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* content grid */
+.content-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--rule)}
+.article{padding:32px 28px 32px 0;border-right:1px solid var(--rule)}
+.article:last-child{border-right:none;padding-right:0;padding-left:28px}
+.article:nth-child(2){padding:32px 28px}
+.art-num{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.art-num::after{content:'';flex:1;height:1px;background:var(--rule)}
+.art-head{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px}
+.art-body{font-size:13px;line-height:1.85;color:#555;font-weight:300}
+
+/* feed */
+.feed-row{display:grid;grid-template-columns:280px 1fr;gap:0;border-bottom:1px solid var(--rule)}
+.feed-label-col{border-right:1px solid var(--rule);padding:28px 24px 28px 0;display:flex;flex-direction:column;justify-content:space-between}
+.feed-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;line-height:1.1;margin-bottom:8px}
+.feed-note{font-size:12px;color:var(--muted);line-height:1.7;font-weight:300}
+.feed-col{padding:28px 0 28px 28px}
+.feed{font-family:'DM Sans',monospace;font-size:11.5px;line-height:2;color:#777;background:var(--soft);padding:20px;min-height:160px;white-space:pre-wrap}
+
+/* links row */
+.links-row{padding:24px 0;display:flex;align-items:center;gap:0;flex-wrap:wrap;border-bottom:1px solid var(--rule)}
+.links-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:24px;white-space:nowrap;font-weight:500}
+.lnk{font-size:12px;font-weight:500;padding:8px 14px;border:1px solid var(--rule);margin:3px;transition:.15s}
+.lnk:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* footer */
+footer{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:11px;color:var(--muted);flex-wrap:wrap;gap:8px}
+.f-right{text-align:right}
+
+@media(max-width:900px){.hero-row,.content-grid,.feed-row{grid-template-columns:1fr}.hero-left{border-right:none;padding-right:0;border-bottom:1px solid var(--rule);padding-bottom:36px}.hero-right{padding-left:0}.article{border-right:none;padding:24px 0}.article:nth-child(2){padding:24px 0}.article:last-child{padding-left:0}.feed-label-col{border-right:none;padding:24px 0}.feed-col{padding:0 0 24px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- masthead -->
+  <div class="masthead">
+    <div class="m-brand">PHAROS</div>
+    <div class="m-issue">
+      <div class="m-date" id="mdate">loading…</div>
+      <div class="m-tags">
+        <div class="m-tag red">Alpha</div>
+        <div class="m-tag">Live RPC</div>
+        <div class="m-tag">No Wallet</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- hero -->
+  <div class="hero-row">
+    <div class="hero-left">
+      <div class="kicker">Builder Surface — Pharos Ecosystem</div>
+      <div class="headline">Pharos,<br/><em>in motion.</em></div>
+      <div class="deck">A cleaner builder-facing surface for the Pharos ecosystem — live mainnet and testnet RPC reads combined with the core primitives that make this chain worth building on.</div>
+    </div>
+    <div class="hero-right">
+      <div class="sidebar-block">
+        <div class="sb-label">Mainnet block</div>
+        <div class="sb-val loading" id="mainnetBlock">loading…</div>
+        <div class="sb-sub">chain id <span id="mainnetChain">—</span></div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sb-label">Testnet block</div>
+        <div class="sb-val loading" id="testnetBlock">loading…</div>
+        <div class="sb-sub">chain id <span id="testnetChain">—</span></div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sb-label">Mainnet gas</div>
+        <div class="sb-val loading" id="mainnetGas">loading…</div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sb-label">Testnet gas</div>
+        <div class="sb-val loading" id="testnetGas">loading…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pull quote -->
+  <div class="pq-band">
+    <div class="pq-text">"Live, not fake-live. No wallet friction. Built for the people who actually ship."</div>
+    <div class="pq-meta"><span class="live-dot"></span>Auto-refresh every 20s · CCTP domain 31</div>
+  </div>
+
+  <!-- articles -->
+  <div class="content-grid">
+    <div class="article">
+      <div class="art-num">Primitives 01</div>
+      <div class="art-head">x402 Micropayment Rails</div>
+      <div class="art-body">Pay-per-use APIs, agent-native commerce, and programmable access flows. The foundation for machine-to-machine payment patterns that actually make sense on-chain.</div>
+    </div>
+    <div class="article">
+      <div class="art-num">Primitives 02</div>
+      <div class="art-head">Circle CCTP Native Rails</div>
+      <div class="art-body">Native USDC transfer rails with a cleaner burn-and-mint model for cross-chain settlement. Domain 31. No wrapped tokens, no fragmented liquidity.</div>
+    </div>
+    <div class="article">
+      <div class="art-num">Primitives 03</div>
+      <div class="art-head">Oracles, SPNs & RealFi</div>
+      <div class="art-body">Useful for trading, RWAs, market-aware automations, and custom execution surfaces tied to specialized workloads. The infra layer beneath serious builder products.</div>
+    </div>
+  </div>
+
+  <!-- build angles -->
+  <div class="content-grid" style="border-bottom:none">
+    <div class="article">
+      <div class="art-num">Build Angle 01</div>
+      <div class="art-head">Agent Commerce Surface</div>
+      <div class="art-body">Usage-based APIs, stablecoin settlement patterns, and machine-to-machine payment flows built around x402. The next generation of programmable commerce.</div>
+    </div>
+    <div class="article">
+      <div class="art-num">Build Angle 02</div>
+      <div class="art-head">RealFi Infra Board</div>
+      <div class="art-body">Map RWAs, oracles, settlement rails, and execution patterns into one builder-friendly interface. Useful for everything from lending to on-chain market automation.</div>
+    </div>
+    <div class="article">
+      <div class="art-num">Build Angle 03</div>
+      <div class="art-head">Builder Ops Layer</div>
+      <div class="art-body">Live entry point for developers — status, explorers, testnet access, and useful primitives. Everything a builder needs before writing the first line.</div>
+    </div>
+  </div>
+
+  <!-- feed -->
+  <div class="feed-row">
+    <div class="feed-label-col">
+      <div>
+        <div class="feed-title">Live Network Feed</div>
+        <div class="feed-note">A small operational layer that keeps the surface feeling alive. Reads real data from public Pharos RPC endpoints.</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted)" id="lastUpdated">last updated: —</div>
+    </div>
+    <div class="feed-col">
+      <div class="feed" id="terminalFeed">[boot] starting terminal...
+[wait] loading live RPC data...</div>
+    </div>
+  </div>
+
+  <!-- links -->
+  <div class="links-row">
+    <div class="links-label">Quick access</div>
+    <a class="lnk" href="https://pharos.xyz" target="_blank">Main Site</a>
+    <a class="lnk" href="https://pharos.xyz/devhub" target="_blank">DevHub</a>
+    <a class="lnk" href="https://docs.pharos.xyz" target="_blank">Docs</a>
+    <a class="lnk" href="https://testnet.pharosnetwork.xyz/" target="_blank">Testnet</a>
+    <a class="lnk" href="https://www.pharosscan.xyz" target="_blank">Mainnet Explorer</a>
+    <a class="lnk" href="https://atlantic.pharosscan.xyz/" target="_blank">Testnet Explorer</a>
+    <a class="lnk" href="https://pharos.socialscan.io/" target="_blank">SocialScan</a>
+  </div>
+
+  <footer>
+    <div>Made with 🤍 for the Pharos Ecosystem</div>
+    <div class="f-right">By Kennyy · <span id="rpcStatus">loading…</span></div>
+  </footer>
+</div>
+
+<script>
+const ep={mainnet:'https://rpc.pharos.xyz',testnet:'https://atlantic.dplabs-internal.com'};
+const $=id=>document.getElementById(id);
+const now=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+$('mdate').textContent=new Date().toLocaleDateString([],{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+function setVal(id,v){const el=$(id);if(!el)return;el.textContent=v;el.classList.remove('loading')}
+async function rpc(url,method,params=[]){const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method,params,id:1})});if(!r.ok)throw new Error(method+' failed');const d=await r.json();if(d.error)throw new Error(d.error.message);return d.result}
+async function net(url){const[block,gas,chain]=await Promise.all([rpc(url,'eth_blockNumber'),rpc(url,'eth_gasPrice'),rpc(url,'net_version')]);return{block:parseInt(block,16).toLocaleString(),gas:(parseInt(gas,16)/1e9).toFixed(2)+' gwei',chain}}
+async function refresh(){const lines=[`[boot] Pharos Alpha`,`[time] ${now()}`];try{const[m,t]=await Promise.all([net(ep.mainnet),net(ep.testnet)]);setVal('mainnetBlock',m.block);setVal('testnetBlock',t.block);setVal('mainnetGas',m.gas);setVal('testnetGas',t.gas);setVal('mainnetChain',m.chain);setVal('testnetChain',t.chain);$('rpcStatus').textContent='live data healthy';lines.push(`[ok] mainnet — chain ${m.chain}, block ${m.block}, gas ${m.gas}`);lines.push(`[ok] testnet — chain ${t.chain}, block ${t.block}, gas ${t.gas}`);lines.push('[note] public surfaces stable for builder tooling');lines.push('[angle] agent commerce, settlement rails, RealFi infra');}catch(e){$('rpcStatus').textContent='data degraded';lines.push(`[err] ${e.message}`);}$('terminalFeed').textContent=lines.join('\n');$('lastUpdated').textContent=`last updated: ${now()}`;}
+refresh();setInterval(refresh,20000);
+</script>
+</body>
+</html>
